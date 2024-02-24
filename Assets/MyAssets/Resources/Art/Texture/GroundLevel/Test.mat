@@ -9,8 +9,12 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Test
   m_Shader: {fileID: 4800000, guid: 2ebb5baaf6e3fac4fa247fecb52b8cad, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - _AUTOMATICSETTINGS_ALL
+  - _PIXELSWITCH_ON
+  m_InvalidKeywords:
+  - _AUTOMATICSETTINGS_AUTOMATICNORMAL
+  - _AUTOMATICSETTINGS_NORMAL
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -40,12 +44,24 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _HeaderTexture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTexture:
+        m_Texture: {fileID: 2800000, guid: ef8a9d2d89c2af24e87fa568c8ee1d98, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -56,9 +72,21 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SmoothnessTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture:
+        m_Texture: {fileID: 2800000, guid: 9f1c2918177e71044b0ca718d9e2c614, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture0:
         m_Texture: {fileID: 2800000, guid: ef8a9d2d89c2af24e87fa568c8ee1d98, type: 3}
-        m_Scale: {x: 1.75, y: 1}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture1:
+        m_Texture: {fileID: 2800000, guid: ef8a9d2d89c2af24e87fa568c8ee1d98, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
@@ -66,21 +94,69 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AutomaticSettings: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _Float0: 0
+    - _Foldout: 0
+    - _Foldout2: 0
+    - _Foldout2METALLIC: 0
+    - _Foldout2OTHERSETTINGS: 0
+    - _Foldout2PIXEL: 0
+    - _Foldout2SMOOTHNESS: 0
+    - _Foldout3NORMALMAP: 0
+    - _Foldout4METALLIC: 0
+    - _Foldout4NORMALMAP: 0
+    - _Foldout5OTHERSETTINGS: 0
+    - _Foldout7: 0
+    - _Foldout7HeaderTexture: 0
+    - _Foldout7MAINTEXTURE: 0
+    - _Foldout7MainTexture: 0
+    - _Foldout7NORMALMAP: 0
+    - _Foldout7Texture: 0
+    - _Foldout8: 0
+    - _Foldout8HeaderMainTexture: 0
+    - _Foldout8MAINTEXTURE: 0
+    - _Foldout8MainTexture: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Metallic: 0
+    - _HeaderMainTexture: 0
+    - _HeaderMetallic: 0
+    - _HeaderMetallicSmoothness: 0
+    - _HeaderNormal: 0
+    - _HeaderNormalMap: 0
+    - _HeaderOtherSettings: 0
+    - _HeaderSmoothness: 0
+    - _Line: 0
+    - _Line1: 0
+    - _LineCoral: 0
+    - _LineCoral1: 0
+    - _LineCoral2: 0
+    - _LineCoral3: 0
+    - _LineCoral4: 0
+    - _Metallic: 0.727
     - _Mode: 0
-    - _NormalStrength: 2
+    - _NormalOffset: 1.12
+    - _NormalOffsetX: 0.5
+    - _NormalOffsetY: 0.5
+    - _NormalStrength: 0
+    - _NoteAutomaticSettingsgettheothermaterialsfromtheMainTexture: 0
+    - _NoteLOL: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _Pixel: 23.8
+    - _PixelSwitch: 1
+    - _Smoothness: 0.649
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TextureOffsetX: 0
+    - _TextureOffsetY: 0
+    - _TextureScaleX: 1
+    - _TextureScaleY: 1
     - _UVSec: 0
     - _ZWrite: 1
     - __dirty: 1
@@ -91,6 +167,6 @@ Material:
     - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Scale: {r: 1, g: 1, b: 0, a: 0}
     - _TextureOffset: {r: 0, g: 0, b: 0, a: 0}
-    - _TextureScale: {r: 0.005, g: 0.005, b: 0, a: 0}
+    - _TextureScale: {r: 1, g: 1, b: 0, a: 0}
     - _Vector0: {r: 0.74, g: 96.44, b: 20.41, a: 9.1}
   m_BuildTextureStacks: []
