@@ -21,6 +21,14 @@ public class CameraFollow : MonoBehaviour
         targetLastFramePosition = target.transform.position; // Initialize
     }
 
+    void ShiftCameraDown()
+    {
+        Vector3 desiredPosition = transform.position + Vector3.down * shiftAmount;
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+
+        CalculateScreenEdges(); // Recalculate edges after the camera moves
+    }
+
     void LateUpdate()
     {
         if (target != null)
@@ -36,6 +44,7 @@ public class CameraFollow : MonoBehaviour
             cameraShiftTriggered = false; // Reset the flag
         }
     }
+    
 
     void CheckForOffscreenMovement()
     {
@@ -49,14 +58,6 @@ public class CameraFollow : MonoBehaviour
         {
             ShiftCameraDown();
         }
-    }
-
-    void ShiftCameraDown()
-    {
-        Vector3 desiredPosition = transform.position + Vector3.down * shiftAmount;
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-
-        CalculateScreenEdges(); // Recalculate edges after the camera moves
     }
 
     void CalculateScreenEdges()

@@ -31,22 +31,22 @@ public class Movement : MonoBehaviour
             moveTriggered = false;
         }
     }
-void CheckForInput()
-{
-     if (inputActions != null) 
-     {
-         float horizontalInput = inputActions.FindActionMap("Player").FindAction("Horizontal").ReadValue<float>();
-         float verticalInput = inputActions.FindActionMap("Player").FindAction("Vertical").ReadValue<float>(); // Add this line
 
-         // Directly use horizontalInput for movement
-         if (horizontalInput != 0) // No need for the absolute value check in this case
-         {
-             int direction = (int)horizontalInput; // -1 for left, 1 for right
-             targetPosition = transform.position + new Vector3(direction * tileSize, -tileSize, 0); 
-             moveTriggered = true;
-         }
-     }
-}
+    void CheckForInput()
+    {
+        if (inputActions != null) 
+        {
+            float horizontalInput = inputActions.FindActionMap("Player").FindAction("Horizontal").ReadValue<float>();
+
+            // Directly use horizontalInput for movement
+            if (horizontalInput != 0) // No need for the absolute value check in this case
+            {
+                int direction = (int)horizontalInput; // -1 for left, 1 for right
+                targetPosition = transform.position + new Vector3(direction * tileSize, -tileSize, 0); 
+                moveTriggered = true;
+            }
+        }
+    }
 
     void OnEnable()
     {
