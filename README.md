@@ -14,5 +14,5 @@ Mole Survivor features two aesthetic design elements:
 
 2. **UX and UI Design**: The overall user experience (UX) and user interface (UI) design of the game will have an Arcade-Style feeling, reminiscent of classic arcade machines.
 
-![Image 1](images/img1.jpg)
+![Image 1](https://github.com/Mooshieblob1/24T1_MoleS/blob/8317505def09666f2f5c695283488ed473531e8e/Images/img1.jpg)
 
