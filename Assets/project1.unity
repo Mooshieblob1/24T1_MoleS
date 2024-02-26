@@ -315,7 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 975072893}
-  shiftAmount: 2
+  shiftAmount: 20
   smoothSpeed: 0.5
 --- !u!1 &975072893
 GameObject:
@@ -347,8 +347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155da37dcb4388e4ba2c628ad3895765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActions: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
-  tileSize: 2
+  inputActions: {fileID: -944628639613478452, guid: 59d0593a055139b4faa17df04af6539a, type: 3}
+  tileSize: 1
 --- !u!212 &975072895
 SpriteRenderer:
   m_ObjectHideFlags: 0
