@@ -17,9 +17,8 @@ namespace MoleSurvivor
 
         public bool singleMovement;
 
-        private Vector3 targetPos;
-
-        private Vector2 _inputM;
+        [HideInInspector] public Vector3 targetPos;
+        [HideInInspector] public Vector2 _inputM;
         private float _inputR;
 
         private CharacterMovement characterMovement;
@@ -27,7 +26,6 @@ namespace MoleSurvivor
 
         public void SetStart()
         {
-            gameObject.SetActive(true);
             characterMovement = GetComponent<CharacterMovement>();
             targetPos = transform.position;
             IsCheckTile(targetPos);
@@ -109,15 +107,13 @@ namespace MoleSurvivor
                         targetPos = transform.position + direction;
                         targetPos = new Vector3Int(Mathf.RoundToInt(targetPos.x), Mathf.RoundToInt(targetPos.y), Mathf.RoundToInt(targetPos.z));
 
+                        CheckBeforeMove();
+
                         // Check Before Move
                         IsCheckTile(targetPos);
 
                         // Move
-                        //StartCoroutine(characterMovement.Move(CheckBeforeMove, CheckAfterMove, transform, orientation, targetPos, new Vector3(0, _inputR, 0), moveSpeed, rotateSpeed));
-                        characterMovement.Move(CheckBeforeMove, CheckAfterMove, transform, orientation, targetPos, new Vector3(0, _inputR, 0), moveSpeed, rotateSpeed, rotateDelay);
-
-                        // Check After Move
-                        //InGameController.Instance.tileTypeDestroy.DestroyTile(targetPos);
+                        characterMovement.Move(null, CheckAfterMove, transform, orientation, targetPos, new Vector3(0, _inputR, 0), moveSpeed, rotateSpeed, rotateDelay, isAllowedToMove);
                     }
                 }
                 #endregion
@@ -126,8 +122,10 @@ namespace MoleSurvivor
 
         void CheckBeforeMove()
         {
-            // Check Before Move
+            //// Check Before Move
             Debug.Log("Check before Move");
+
+            IsCheckTargetPos(targetPos, false);
         }
 
         void CheckAfterMove()
@@ -137,12 +135,12 @@ namespace MoleSurvivor
 
             DetectColliders();
 
-            IsCheckTargetPos(targetPos);
+            IsCheckTargetPos(targetPos, true);
 
-            Debug.Log("Check after Move");
+            //Debug.Log("Check after Move");
         }
 
-        void IsCheckTargetPos(Vector3 targetPos)
+        void IsCheckTargetPos(Vector3 targetPos, bool cBeforeOrAfter)
         {
             Collider[] colliders = Physics.OverlapSphere(targetPos, 0.3f);
 
@@ -151,7 +149,7 @@ namespace MoleSurvivor
                 if (c.GetComponent<Trap>() != null)
                 {
                     Trap coll = c.GetComponent<Trap>();
-                    coll.SetStart(transform);
+                    coll.SetStart(transform, cBeforeOrAfter);
                 }
             }
         }

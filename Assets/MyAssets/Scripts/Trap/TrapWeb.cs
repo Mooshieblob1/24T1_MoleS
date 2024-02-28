@@ -12,12 +12,14 @@ namespace MoleSurvivor
         private Transform player;
         private bool canGoOpposite = true;
 
+        private bool cBeforeOrAfter;
+
         void Start()
         {
             IsCheckTile(transform.position);
         }
 
-        protected override void StartCall(Transform cPlayer) { currentInt = Random.Range(min, max + 1); player = cPlayer; StartCoroutine(CorUpdate()); }
+        protected override void StartCall(Transform cPlayer) { if (checkBeforeOrAfter == true) { currentInt = Random.Range(min, max + 1); player = cPlayer; StartCoroutine(CorUpdate()); } }
 
         public IEnumerator CorUpdate()
         {

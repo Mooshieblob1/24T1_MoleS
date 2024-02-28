@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapRock : MonoBehaviour
+namespace MoleSurvivor
 {
-    // Start is called before the first frame update
-    void Start()
+    public class TrapRock : Trap
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        protected override void StartCall(Transform cPlayer)
+        {
+            if (checkBeforeOrAfter != true)
+            {
+                cPlayer.GetComponent<PlayerController>().isAllowedToMove = false;
+                cPlayer.GetComponent<PlayerController>()._inputM = new Vector2(0, 0);
+                cPlayer.GetComponent<PlayerController>().targetPos = cPlayer.transform.position;
+                cPlayer.GetComponent<PlayerController>().isAllowedToMove = true;
+            }
+        }
     }
 }

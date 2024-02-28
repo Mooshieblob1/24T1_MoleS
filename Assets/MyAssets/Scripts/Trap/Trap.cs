@@ -6,7 +6,10 @@ namespace MoleSurvivor
 {
     public class Trap : MonoBehaviour
     {
-        public virtual void SetStart(Transform cPlayer) { StartCall(cPlayer); }
+        // Before = false / After = true
+        protected bool checkBeforeOrAfter;
+
+        public virtual void SetStart(Transform cPlayer, bool cBeforeOrAfter) { checkBeforeOrAfter = cBeforeOrAfter; StartCall(cPlayer); }
         protected virtual void StartCall(Transform cPlayer) { /* Implement in child class */ }
     }
 }

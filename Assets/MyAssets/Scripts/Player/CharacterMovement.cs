@@ -10,6 +10,7 @@ namespace MoleSurvivor
     {
         private bool isMoving;
         private Coroutine rotateDelayCoroutine;
+        private float distance;
 
         #region Old
         //IEnumerator Move(Vector3 targetPos, Transform _targetTransform)
@@ -89,42 +90,82 @@ namespace MoleSurvivor
         //}
         #endregion
 
-        public void Move(Action checkBeforeMove, Action checkAfterMove, Transform _targetTransform, Transform _targetOrientation, Vector3 targetPos, Vector3 targetRotate, float moveSpeed, float rotationSpeed, float delayRotation = 0)
+        public void Move( Action checkBeforeMove, Action checkAfterMove, Transform _targetTransform, Transform _targetOrientation, Vector3 targetPos, Vector3 targetRotate, float moveSpeed, float rotationSpeed, float delayRotation = 0, bool isAllowedToMove = true)
         {
             checkBeforeMove?.Invoke();
 
             isMoving = true;
 
             // Calculate the distance to the target
-            float distance = Vector3.Distance(_targetTransform.position, targetPos);
+            distance = Vector3.Distance(_targetTransform.position, targetPos);
 
             // Calculate the duration it should take to move to the target at the given speed
-            float speedDuration = distance / moveSpeed;
-            float rotateDuration = distance / rotationSpeed;
+            //float speedDuration = distance / moveSpeed;
+            //float rotateDuration = distance / rotationSpeed;
 
-            // Use DoTween for movement
-            _targetTransform.DOMove(targetPos, speedDuration)
-                .OnComplete(() =>
-                {
-                // Once movement is complete, set the final position
-                _targetTransform.position = targetPos;
-                    isMoving = false;
-                    checkAfterMove?.Invoke();
 
-                    // Check if not moving, then rotate orientation
-                    // Start the delay coroutine for orientation reset
-                    if (!isMoving && rotateDelayCoroutine != null) { StopCoroutine(rotateDelayCoroutine); }
-                    if (!isMoving) { rotateDelayCoroutine = StartCoroutine(RotateDelayCoroutine(_targetOrientation, rotateDuration, delayRotation)); }
 
-                });
+            if (isAllowedToMove)
+            {
+                float speedDuration = distance / moveSpeed;
+                float rotateDuration = distance / rotationSpeed;
 
-            // Use DoTween for rotation
-            _targetOrientation.DORotate(targetRotate, rotateDuration)
-                .OnComplete(() =>
-                {
-                // Once rotation is complete, set the final rotation
-                _targetOrientation.rotation = Quaternion.Euler(targetRotate);
-                });
+                // Use DoTween for movement
+                _targetTransform.DOMove(targetPos, speedDuration)
+                    .OnComplete(() =>
+                    {
+                        // Once movement is complete, set the final position
+                        _targetTransform.position = targetPos;
+                        isMoving = false;
+                        checkAfterMove?.Invoke();
+
+                        // Check if not moving, then rotate orientation
+                        // Start the delay coroutine for orientation reset
+                        if (!isMoving && rotateDelayCoroutine != null) { StopCoroutine(rotateDelayCoroutine); }
+                        if (!isMoving) { rotateDelayCoroutine = StartCoroutine(RotateDelayCoroutine(_targetOrientation, rotateDuration, delayRotation)); }
+
+                    });
+
+                // Use DoTween for rotation
+                _targetOrientation.DORotate(targetRotate, rotateDuration)
+                    .OnComplete(() =>
+                    {
+                    // Once rotation is complete, set the final rotation
+                    _targetOrientation.rotation = Quaternion.Euler(targetRotate);
+                    });
+            }
+            else
+            {
+                float speedDuration = distance / moveSpeed;
+                // Set rotateDuration to the duration of rotation only
+                float rotateDuration = Mathf.Abs(Vector3.Angle(_targetOrientation.eulerAngles, targetRotate)) / rotationSpeed;
+
+                // Use DoTween for movement
+                DOTween.Sequence()
+                    .Append(_targetTransform.DOMove(_targetTransform.position, 0)) // Move to the same position (effectively no movement)
+                    .AppendInterval(speedDuration) // Delay for the duration of movement
+                    .OnComplete(() =>
+                    {
+                        // Once movement is complete, set the final position
+                        _targetTransform.position = _targetTransform.position;
+                        isMoving = false;
+                        checkAfterMove?.Invoke();
+
+                        // Check if not moving, then rotate orientation
+                        // Start the delay coroutine for orientation reset
+                        if (!isMoving && rotateDelayCoroutine != null) { StopCoroutine(rotateDelayCoroutine); }
+                        if (!isMoving) { rotateDelayCoroutine = StartCoroutine(RotateDelayCoroutine(_targetOrientation, rotateDuration, delayRotation)); }
+
+                    });
+
+                // Use DoTween for rotation
+                _targetOrientation.DORotate(targetRotate, rotateDuration)
+                    .OnComplete(() =>
+                    {
+                    // Once rotation is complete, set the final rotation
+                    _targetOrientation.rotation = Quaternion.Euler(targetRotate);
+                    });
+            }
         }
 
         private IEnumerator RotateDelayCoroutine(Transform targetOrientation, float rotateDuration, float rotationResetDelay)
