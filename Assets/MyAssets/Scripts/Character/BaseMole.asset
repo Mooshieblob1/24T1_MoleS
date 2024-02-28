@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f31ebaf8d2f9854d8a84f15ace0ab1d, type: 3}
+  m_Name: BaseMole
+  m_EditorClassIdentifier: 
+  _name: Base
+  _Face: {fileID: 2080680018255248353, guid: 80fde6e5996f917448c602baf204dbf9, type: 3}
+  _Head: {fileID: 5911466547364628994, guid: a9fc9dd895ed9c44d9a0bf1dc9081bae, type: 3}
+  _Neck: {fileID: 2376341672308800912, guid: f2c6b28742f760f4f8cd62de79995d19, type: 3}
+  _Body: {fileID: 5186982129855011933, guid: 27b6f81499da84d4da8b2438dbfcb880, type: 3}
+  _Tail: {fileID: 4716065575265113575, guid: 3ac7e36fd0ed1f447befc134281fe236, type: 3}
+  _LeftShoulder: {fileID: 0}
+  _RightShoulder: {fileID: 0}
+  _LeftHand: {fileID: 8802138590450680685, guid: 77ed65776c82dab43a75adeee983feb9, type: 3}
+  _RightHand: {fileID: 4166352312236715219, guid: 29f2ce5940fed1d4694403187fa3bd7b, type: 3}
+  _LeftHip: {fileID: 1276010299708985252, guid: ccfb04285a54e014e9a078831c546b73, type: 3}
+  _RightHip: {fileID: 6991436773147618707, guid: ab512376716a39141bf26081145b6cee, type: 3}
+  _LeftKnee: {fileID: 8411315964549818265, guid: f85a1a76cd62ac44389edb4d429878dd, type: 3}
+  _RightKnee: {fileID: 3907106219664321957, guid: 3cc58fdb4895a5d4d8854bcca3eb5bb9, type: 3}
+  _LeftFoot: {fileID: 8563999047601663487, guid: c8b07a9a623916445b37be139b209069, type: 3}
+  _RightFoot: {fileID: 2426699800144851554, guid: 0177eaa2c612a3a41902a5eeee8d63c4, type: 3}
