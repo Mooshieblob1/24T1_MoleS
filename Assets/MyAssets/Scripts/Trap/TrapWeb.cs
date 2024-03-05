@@ -8,7 +8,7 @@ namespace MoleSurvivor
     {
         public int min, max;
 
-        private int currentInt;
+        public int currentInt;
         private Transform player;
         private bool canGoOpposite = true;
 
@@ -28,12 +28,12 @@ namespace MoleSurvivor
                 player.GetComponent<PlayerController>().isAllowedToMove = false;
                 player.GetComponent<PlayerController>().orientation.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
-                if (Input.GetKeyDown(player.GetComponent<PlayerController>().key3.Value) && canGoOpposite) // Key3 "Right Arrow"
+                if (player.GetComponent<PlayerController>()._inputM.x < 0 && canGoOpposite)
                 {
                     currentInt--;
                     canGoOpposite = false; // Set to false so the player can't go right next time
                 }
-                else if (Input.GetKeyDown(player.GetComponent<PlayerController>().key1.Value) && !canGoOpposite) // Key1 "Left Arrow"
+                else if (player.GetComponent<PlayerController>()._inputM.x > 0 && !canGoOpposite)
                 {
                     currentInt--;
                     canGoOpposite = true; // Set to true so the player can go right next time

@@ -17,7 +17,7 @@ namespace MoleSurvivor
             transform.parent = null;
 
             //If there is more than one instance, destroy the extra else Set the static instance to this instance
-            if (Instance != null && Instance != this) { Destroy(this.gameObject); } else { Instance = this; DontDestroyOnLoad(gameObject); }
+            if (Instance != null && Instance != this) { Destroy(this.gameObject); } else { Instance = this; }
         }
 
         private InputManager inputManager;
@@ -61,28 +61,54 @@ namespace MoleSurvivor
         player3,
         player4;
 
-        [Space]
+        [TitleGroup("BOX PLAYER/PLAYER START POSITION", "Set all the players start position depending on how many players")]
+        [FoldoutGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder")]
+        [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Only have 1 Player")] 
+        [HideLabel]
+        public int 
+        Only1Player;
 
-        [BoxGroup("BOX PLAYER")]
-        public float playerMoveSpeed;
-        [BoxGroup("BOX PLAYER")]
-        public float playerRotateSpeed;
-        [BoxGroup("BOX PLAYER")]
-        public float playerRotateDelay;
+        [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Only have 2 Player")]
+        [HideLabel]
+        [SerializeField]
+        public int
+        Only2Player1,
+        Only2Player2;
 
-        [Space]
+        [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Only have 3 Player")]
+        [HideLabel]
+        [SerializeField]
+        public int
+        Only3Player1,
+        Only3Player2,
+        Only3Player3;
 
+        [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Only have 4 Player")]
+        [HideLabel]
+        [SerializeField]
+        public int
+        Only4Player1,
+        Only4Player2,
+        Only4Player3,
+        Only4Player4;
+
+
+        [TitleGroup("BOX PLAYER/START SPEED & ROTATION", "Set all the players the Speed and Rotation on the start")]
         [BoxGroup("BOX PLAYER")]
-        public bool p1Active;
+        public float 
+        playerMoveSpeed,
+        playerRotateSpeed,
+        playerRotateDelay;
+
+        [TitleGroup("BOX PLAYER/CHECK PLAYER ACTIVE", "Set how many players in the game")]
         [BoxGroup("BOX PLAYER")]
-        public bool p2Active;
-        [BoxGroup("BOX PLAYER")]
-        public bool p3Active;
-        [BoxGroup("BOX PLAYER")]
-        public bool p4Active;
+        public bool 
+        p1Active,
+        p2Active,
+        p3Active,
+        p4Active;
         
-        [Space]
-
+        [TitleGroup("BOX PLAYER/SET MODE", "Singleplayer / Multiplayer")]
         [BoxGroup("BOX PLAYER")]
         public bool soloMode;
 
@@ -119,7 +145,7 @@ namespace MoleSurvivor
             if (player4 != null && p4Active) { SetStartPlayer(player4, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode, inputManager.p4_Left, inputManager.p4_Right); }
 
             // Start the coroutine
-            StartCoroutine(MoveCameraCoroutine());
+            //StartCoroutine(MoveCameraCoroutine());
         }
 
         private void Update() { SetUpdate(setActiveUpdate); }
@@ -154,14 +180,11 @@ namespace MoleSurvivor
         void SetStartPlayer(PlayerController player, float pMoveSpeed, float pRotateSpeed, float pRotateDelay, bool solo, KeyCode leftControl, KeyCode rightControl)
         {
             player.moveSpeed = pMoveSpeed;
-            player.rotateSpeed = pRotateSpeed;
+            player.rotateDuration = pRotateSpeed;
             player.rotateDelay = pRotateDelay;
 
             player.singleMovement = solo;
             player.SetStart();
-
-            player.InputLeftDownUpdate(leftControl);
-            player.InputRightDownUpdate(rightControl);
         }
 
         IEnumerator CountdownRoutine(int startValue, float delay)

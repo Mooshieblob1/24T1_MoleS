@@ -264,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 1048030166}
   moveSpeed: 3
-  rotateSpeed: 5
+  rotateDuration: 10
   rotateDelay: 2
   singleMovement: 0
   targetPos: {x: 0, y: 0, z: 0}
@@ -561,7 +561,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 56461095}
   moveSpeed: 3
-  rotateSpeed: 5
+  rotateDuration: 10
   rotateDelay: 2
   singleMovement: 0
   targetPos: {x: 0, y: 0, z: 0}
@@ -1594,7 +1594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 1775966903}
   moveSpeed: 3
-  rotateSpeed: 5
+  rotateDuration: 10
   rotateDelay: 2
   singleMovement: 0
   targetPos: {x: 0, y: 0, z: 0}
@@ -2467,7 +2467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 1451995854}
   moveSpeed: 3
-  rotateSpeed: 5
+  rotateDuration: 10
   rotateDelay: 2
   singleMovement: 0
   targetPos: {x: 0, y: 0, z: 0}
@@ -2872,8 +2872,18 @@ MonoBehaviour:
   player2: {fileID: 205914719}
   player3: {fileID: 945404785}
   player4: {fileID: 682836401}
+  Only1Player: 0
+  Only2Player1: 0
+  Only2Player2: 0
+  Only3Player1: 0
+  Only3Player2: 0
+  Only3Player3: 0
+  Only4Player1: 0
+  Only4Player2: 0
+  Only4Player3: 0
+  Only4Player4: 0
   playerMoveSpeed: 10
-  playerRotateSpeed: 5
+  playerRotateSpeed: 0.1
   playerRotateDelay: 2
   p1Active: 1
   p2Active: 0
