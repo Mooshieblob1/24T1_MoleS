@@ -62,34 +62,42 @@ namespace MoleSurvivor
 
         [TitleGroup("BOX PLAYER/PLAYER START POSITION", "Set all the players start position depending on how many players")]
         [FoldoutGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder")]
+        [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Set start height all Player")]
+        [HideLabel]
+        [SerializeField]
+        public int
+        setAllPlayerHeight;
+
+
         [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Only have 1 Player")] 
         [HideLabel]
+        [SerializeField]
         public int 
-        Only1Player;
+        only1Player;
 
         [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Only have 2 Player")]
         [HideLabel]
         [SerializeField]
         public int
-        Only2Player1,
-        Only2Player2;
+        only2Player1,
+        only2Player2;
 
         [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Only have 3 Player")]
         [HideLabel]
         [SerializeField]
         public int
-        Only3Player1,
-        Only3Player2,
-        Only3Player3;
+        only3Player1,
+        only3Player2,
+        only3Player3;
 
         [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Only have 4 Player")]
         [HideLabel]
         [SerializeField]
         public int
-        Only4Player1,
-        Only4Player2,
-        Only4Player3,
-        Only4Player4;
+        only4Player1,
+        only4Player2,
+        only4Player3,
+        only4Player4;
 
 
         [TitleGroup("BOX PLAYER/START SPEED & ROTATION", "Set all the players the Speed and Rotation on the start")]
@@ -131,6 +139,7 @@ namespace MoleSurvivor
                 currentlevelSandwitch[i] = Instantiate(levelSandwitch[i]);
                 currentlevelSandwitch[i].parent = levelGridParent;
                 currentlevelSandwitch[i].transform.localPosition = new Vector3(0, -(i * eachLayerSize), 0);
+                currentlevelSandwitch[i].gameObject.SetActive(false);
             }
 
             if (player1 != null && p1Active) { player1.gameObject.SetActive(true); }
@@ -143,8 +152,7 @@ namespace MoleSurvivor
 
         void SetStart()
         {
-            SetPlayerPosition(playersActive);
-            SetPlayerActivation(playersActive);
+            SetPlayerPositionActivation(playersActive);
 
             if (player1 != null && p1Active) { SetStartPlayer(player1, P1Pos, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode); }
             if (player2 != null && p2Active) { SetStartPlayer(player2, P2Pos, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode); }
@@ -152,10 +160,10 @@ namespace MoleSurvivor
             if (player4 != null && p4Active) { SetStartPlayer(player4, P4Pos, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode); }
 
             // Start the coroutine
-            //StartCoroutine(MoveCameraCoroutine());
+            StartCoroutine(MoveCameraCoroutine());
         }
 
-        public void SetPlayerActivation(int numberOfPlayers)
+        public void SetPlayerPositionActivation(int numberOfPlayers)
         {
             // First, deactivate all players
             p1Active = p2Active = p3Active = p4Active = false;
@@ -164,21 +172,49 @@ namespace MoleSurvivor
             switch (numberOfPlayers)
             {
                 case 1:
+                    // Set Player Position
+                    P1Pos = only1Player;
+                    // Optionally reset other player values
+                    P2Pos = P3Pos = P4Pos = 0; // Or any default value
+
+                    // Set Player Active
                     p1Active = true;
                     player1.AssignGamepad(0);
                     break;
                 case 2:
+                    // Set Player Position
+                    P1Pos = only2Player1;
+                    P2Pos = only2Player2;
+                    // Optionally reset other player values
+                    P3Pos = P4Pos = 0; // Or any default value
+
+                    // Set Player Active
                     p1Active = p2Active = true;
                     player1.AssignGamepad(0);
                     player2.AssignGamepad(1);
                     break;
                 case 3:
+                    // Set Player Position
+                    P1Pos = only3Player1;
+                    P2Pos = only3Player2;
+                    P3Pos = only3Player3;
+                    // Optionally reset other player value
+                    P4Pos = 0; // Or any default value
+
+                    // Set Player Active
                     p1Active = p2Active = p3Active = true;
                     player1.AssignGamepad(0);
                     player2.AssignGamepad(1);
                     player3.AssignGamepad(2);
                     break;
                 case 4:
+                    // Set Player Position
+                    P1Pos = only4Player1;
+                    P2Pos = only4Player2;
+                    P3Pos = only4Player3;
+                    P4Pos = only4Player4;
+
+                    // Set Player Active
                     p1Active = p2Active = p3Active = p4Active = true;
                     player1.AssignGamepad(0);
                     player2.AssignGamepad(1);
@@ -187,6 +223,9 @@ namespace MoleSurvivor
                     break;
                 default:
                     Debug.LogError("Unsupported number of players: " + numberOfPlayers);
+
+                    // Optionally reset all player Position
+                    P1Pos = P2Pos = P3Pos = P4Pos = 0; // Or any default value
                     break;
             }
 
@@ -196,43 +235,6 @@ namespace MoleSurvivor
             player3.gameObject.SetActive(p3Active);
             player4.gameObject.SetActive(p4Active);
         }
-
-        public void SetPlayerPosition(int numberOfPlayers)
-        {
-            switch (numberOfPlayers)
-            {
-                case 1:
-                    P1Pos = Only1Player;
-                    // Optionally reset other player values
-                    P2Pos = P3Pos = P4Pos = 0; // Or any default value
-                    break;
-                case 2:
-                    P1Pos = Only2Player1;
-                    P2Pos = Only2Player2;
-                    // Optionally reset other player values
-                    P3Pos = P4Pos = 0; // Or any default value
-                    break;
-                case 3:
-                    P1Pos = Only3Player1;
-                    P2Pos = Only3Player2;
-                    P3Pos = Only3Player3;
-                    // Optionally reset other player value
-                    P4Pos = 0; // Or any default value
-                    break;
-                case 4:
-                    P1Pos = Only4Player1;
-                    P2Pos = Only4Player2;
-                    P3Pos = Only4Player3;
-                    P4Pos = Only4Player4;
-                    break;
-                default:
-                    Debug.LogError("Unsupported number of players: " + numberOfPlayers);
-                    // Optionally reset all player values
-                    P1Pos = P2Pos = P3Pos = P4Pos = 0; // Or any default value
-                    break;
-            }
-        }
-
 
         private void Update() { SetUpdate(setActiveUpdate); }
 
@@ -244,6 +246,12 @@ namespace MoleSurvivor
                 if (player2 != null && p2Active) player2.SetUpdate();
                 if (player3 != null && p3Active) player3.SetUpdate();
                 if (player4 != null && p4Active) player4.SetUpdate();
+            }
+
+            // Set the Level to false
+            for (int i = 0; i < currentlevelSandwitch.Length; i++)
+            {
+                OutsideBound(currentlevelSandwitch[i], eachLayerSize / 2);
             }
         }
 
@@ -265,7 +273,7 @@ namespace MoleSurvivor
 
         void SetStartPlayer(PlayerController player, int pPosition, float pMoveSpeed, float pRotateSpeed, float pRotateDelay, bool solo)
         {
-            player.transform.position = new Vector3(pPosition, player.transform.position.y, player.transform.position.z);
+            player.transform.position = new Vector3(pPosition, setAllPlayerHeight, player.transform.position.z);
 
             player.moveSpeed = pMoveSpeed;
             player.rotateDuration = pRotateSpeed;
@@ -311,5 +319,81 @@ namespace MoleSurvivor
         {
             Destroy(this.gameObject);
         }
+
+        public Vector2 _screenSpace;
+        public float vertical;
+        public float horizontal;
+
+        public void OutsideBound(Transform objectBound, float objectBoundPositionOffset)
+        {
+            // Assuming inGameCamera, horizontal, vertical, and _screenSpace are already defined
+
+            // Center position based on the inGameCamera
+            Vector3 centerPosition = inGameCamera.position;
+
+            // Inner boundaries
+            float innerLeft = centerPosition.x - horizontal;
+            float innerRight = centerPosition.x + horizontal;
+            float innerBottom = centerPosition.y - vertical;
+            float innerTop = centerPosition.y + vertical;
+
+            // Outer boundaries (expanded by _screenSpace)
+            float outerLeft = innerLeft - _screenSpace.x;
+            float outerRight = innerRight + _screenSpace.x;
+            float outerBottom = innerBottom - _screenSpace.y;
+            float outerTop = innerTop + _screenSpace.y;
+
+            Vector3 pointToCheckTop = objectBound.position + new Vector3(0, -objectBoundPositionOffset, 0); // Example point
+            Vector3 pointToCheckDown = objectBound.position + new Vector3(0, objectBoundPositionOffset, 0); // Example point
+
+            if (pointToCheckTop.y > outerTop)
+            {
+                // The point the outer boundaries
+                objectBound.gameObject.SetActive(false);
+            }
+            if (pointToCheckDown.y > outerBottom && pointToCheckTop.y < outerTop)
+            {
+                // The point the outer boundaries
+                objectBound.gameObject.SetActive(true);
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (inGameCamera == null)
+            {
+                Debug.LogWarning("inGameCamera Transform is not set.");
+                return;
+            }
+
+            Vector3 centerPosition = inGameCamera.position;
+
+            // Adjusted positions to center around inGameCamera
+            Vector3 bottomLeft = centerPosition + new Vector3(-horizontal, -vertical);
+            Vector3 bottomRight = centerPosition + new Vector3(horizontal, -vertical);
+            Vector3 topLeft = centerPosition + new Vector3(-horizontal, vertical);
+            Vector3 topRight = centerPosition + new Vector3(horizontal, vertical);
+
+            // Drawing inner borders
+            Gizmos.DrawLine(bottomLeft, bottomRight);
+            Gizmos.DrawLine(topLeft, topRight);
+            Gizmos.DrawLine(bottomLeft, topLeft);
+            Gizmos.DrawLine(bottomRight, topRight);
+
+            Gizmos.color = Color.yellow;
+
+            // Adjusted positions for outer borders using _screenSpace
+            Vector3 outerBottomLeft = bottomLeft + new Vector3(-_screenSpace.x, -_screenSpace.y);
+            Vector3 outerBottomRight = bottomRight + new Vector3(_screenSpace.x, -_screenSpace.y);
+            Vector3 outerTopLeft = topLeft + new Vector3(-_screenSpace.x, _screenSpace.y);
+            Vector3 outerTopRight = topRight + new Vector3(_screenSpace.x, _screenSpace.y);
+
+            // Drawing outer borders
+            Gizmos.DrawLine(outerBottomLeft, outerBottomRight);
+            Gizmos.DrawLine(outerTopLeft, outerTopRight);
+            Gizmos.DrawLine(outerBottomLeft, outerTopLeft);
+            Gizmos.DrawLine(outerBottomRight, outerTopRight);
+        }
+
     }
 }
