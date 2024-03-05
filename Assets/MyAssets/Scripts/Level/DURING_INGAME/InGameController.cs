@@ -20,7 +20,6 @@ namespace MoleSurvivor
             if (Instance != null && Instance != this) { Destroy(this.gameObject); } else { Instance = this; }
         }
 
-        private InputManager inputManager;
         private bool setActiveUpdate;
 
         [BoxGroup("BOX LEVEL SANDWITCH", false)]
@@ -100,22 +99,27 @@ namespace MoleSurvivor
         playerRotateSpeed,
         playerRotateDelay;
 
-        [TitleGroup("BOX PLAYER/CHECK PLAYER ACTIVE", "Set how many players in the game")]
-        [BoxGroup("BOX PLAYER")]
+        //[TitleGroup("BOX PLAYER/CHECK PLAYER ACTIVE", "Set how many players in the game")]
+        //[BoxGroup("BOX PLAYER")]
+        [HideInInspector]
         public bool 
         p1Active,
         p2Active,
         p3Active,
         p4Active;
-        
+
+        [TitleGroup("BOX PLAYER/CHECK PLAYER ACTIVE", "Set how many players in the game")]
+        [BoxGroup("BOX PLAYER")]
+        public int playersActive;
+
+        int P1Pos, P2Pos, P3Pos, P4Pos;
+
         [TitleGroup("BOX PLAYER/SET MODE", "Singleplayer / Multiplayer")]
         [BoxGroup("BOX PLAYER")]
         public bool soloMode;
 
         private void Start() 
         {
-            inputManager = MainManager.Instance.inputManager;
-
             // First, ensure currentlevelSandwitch is properly initialized.
             currentlevelSandwitch = new Transform[levelSandwitch.Length];
 
@@ -139,14 +143,96 @@ namespace MoleSurvivor
 
         void SetStart()
         {
-            if (player1 != null && p1Active) { SetStartPlayer(player1, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode, inputManager.p1_Left, inputManager.p1_Right); }
-            if (player2 != null && p2Active) { SetStartPlayer(player2, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode, inputManager.p2_Left, inputManager.p2_Right); }
-            if (player3 != null && p3Active) { SetStartPlayer(player3, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode, inputManager.p3_Left, inputManager.p3_Right); }
-            if (player4 != null && p4Active) { SetStartPlayer(player4, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode, inputManager.p4_Left, inputManager.p4_Right); }
+            SetPlayerPosition(playersActive);
+            SetPlayerActivation(playersActive);
+
+            if (player1 != null && p1Active) { SetStartPlayer(player1, P1Pos, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode); }
+            if (player2 != null && p2Active) { SetStartPlayer(player2, P2Pos, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode); }
+            if (player3 != null && p3Active) { SetStartPlayer(player3, P3Pos, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode); }
+            if (player4 != null && p4Active) { SetStartPlayer(player4, P4Pos, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode); }
 
             // Start the coroutine
             //StartCoroutine(MoveCameraCoroutine());
         }
+
+        public void SetPlayerActivation(int numberOfPlayers)
+        {
+            // First, deactivate all players
+            p1Active = p2Active = p3Active = p4Active = false;
+
+            // Then, activate players based on the number of players
+            switch (numberOfPlayers)
+            {
+                case 1:
+                    p1Active = true;
+                    player1.AssignGamepad(0);
+                    break;
+                case 2:
+                    p1Active = p2Active = true;
+                    player1.AssignGamepad(0);
+                    player2.AssignGamepad(1);
+                    break;
+                case 3:
+                    p1Active = p2Active = p3Active = true;
+                    player1.AssignGamepad(0);
+                    player2.AssignGamepad(1);
+                    player3.AssignGamepad(2);
+                    break;
+                case 4:
+                    p1Active = p2Active = p3Active = p4Active = true;
+                    player1.AssignGamepad(0);
+                    player2.AssignGamepad(1);
+                    player3.AssignGamepad(2);
+                    player4.AssignGamepad(3);
+                    break;
+                default:
+                    Debug.LogError("Unsupported number of players: " + numberOfPlayers);
+                    break;
+            }
+
+            // Update PlayerControllers' active status based on the active flags
+            player1.gameObject.SetActive(p1Active);
+            player2.gameObject.SetActive(p2Active);
+            player3.gameObject.SetActive(p3Active);
+            player4.gameObject.SetActive(p4Active);
+        }
+
+        public void SetPlayerPosition(int numberOfPlayers)
+        {
+            switch (numberOfPlayers)
+            {
+                case 1:
+                    P1Pos = Only1Player;
+                    // Optionally reset other player values
+                    P2Pos = P3Pos = P4Pos = 0; // Or any default value
+                    break;
+                case 2:
+                    P1Pos = Only2Player1;
+                    P2Pos = Only2Player2;
+                    // Optionally reset other player values
+                    P3Pos = P4Pos = 0; // Or any default value
+                    break;
+                case 3:
+                    P1Pos = Only3Player1;
+                    P2Pos = Only3Player2;
+                    P3Pos = Only3Player3;
+                    // Optionally reset other player value
+                    P4Pos = 0; // Or any default value
+                    break;
+                case 4:
+                    P1Pos = Only4Player1;
+                    P2Pos = Only4Player2;
+                    P3Pos = Only4Player3;
+                    P4Pos = Only4Player4;
+                    break;
+                default:
+                    Debug.LogError("Unsupported number of players: " + numberOfPlayers);
+                    // Optionally reset all player values
+                    P1Pos = P2Pos = P3Pos = P4Pos = 0; // Or any default value
+                    break;
+            }
+        }
+
 
         private void Update() { SetUpdate(setActiveUpdate); }
 
@@ -177,8 +263,10 @@ namespace MoleSurvivor
             inGameCamera.transform.position = new Vector3(0, endGoal, startingPosition.z);
         }
 
-        void SetStartPlayer(PlayerController player, float pMoveSpeed, float pRotateSpeed, float pRotateDelay, bool solo, KeyCode leftControl, KeyCode rightControl)
+        void SetStartPlayer(PlayerController player, int pPosition, float pMoveSpeed, float pRotateSpeed, float pRotateDelay, bool solo)
         {
+            player.transform.position = new Vector3(pPosition, player.transform.position.y, player.transform.position.z);
+
             player.moveSpeed = pMoveSpeed;
             player.rotateDuration = pRotateSpeed;
             player.rotateDelay = pRotateDelay;

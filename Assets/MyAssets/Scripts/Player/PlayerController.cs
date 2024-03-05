@@ -2,12 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Rewired;
 
 namespace MoleSurvivor
 {
     [RequireComponent(typeof(CharacterMovement))]
     public class PlayerController : MonoBehaviour
     {
+        // The Rewired player id of this character
+        public int playerId = 0;
+        // The Rewired Player
+        private Player player;
+
         public Transform orientation;
 
         [Header("MOVEMENT & ROTATION")]
@@ -24,7 +30,16 @@ namespace MoleSurvivor
         private CharacterMovement characterMovement;
         public bool isAllowedToMove = true;
 
-        #region Old
+        public float horizontalInput;
+
+        #region
+
+        public void AssignGamepad(int pId)
+        {
+            playerId = pId;
+            player = ReInput.players.GetPlayer(playerId);
+        }
+
         public void SetStart()
         {
             characterMovement = GetComponent<CharacterMovement>();
@@ -34,7 +49,7 @@ namespace MoleSurvivor
 
         void CheckForInput()
         {
-            float horizontalInput = Input.GetAxisRaw("Horizontal");
+            horizontalInput = player.GetAxis("LJ Horizontal");
 
             // Directly use horizontalInput for movement
             if (horizontalInput != 0)
