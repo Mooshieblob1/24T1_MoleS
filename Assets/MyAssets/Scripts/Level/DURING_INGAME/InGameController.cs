@@ -22,10 +22,9 @@ namespace MoleSurvivor
 
         private bool setActiveUpdate;
 
+        #region SANDWITCH LEVEL SETTING INSPECTOR
         [BoxGroup("BOX LEVEL SANDWITCH", false)]
         [Title("BOX LEVEL SANDWITCH/LEVEL SANDWITCH")]
-        public Transform inGameCamera;
-        [BoxGroup("BOX LEVEL SANDWITCH")]
         public Transform levelGridParent;
         
         [Space]
@@ -51,7 +50,23 @@ namespace MoleSurvivor
 
         Transform[] currentlevelSandwitch;
         int endGoal;
+        #endregion
 
+        #region CAMERA & GRID SETTING INSPECTOR
+        [BoxGroup("BOX CAMERA HOLDER", false)]
+        [TitleGroup("BOX CAMERA HOLDER/CAMERA & GRID")]
+        public Transform inGameCamera;
+        [BoxGroup("BOX CAMERA HOLDER")]
+        public Grid grid; // Reference to the isometric grid
+        [BoxGroup("BOX CAMERA HOLDER")]
+        public Vector2 _screenSpace;
+        [BoxGroup("BOX CAMERA HOLDER")]
+        public float vertical;
+        [BoxGroup("BOX CAMERA HOLDER")]
+        public float horizontal;
+        #endregion
+
+        #region PLAYER SETTING INSPECTOR
         [BoxGroup("BOX PLAYER", false)]
         [TitleGroup("BOX PLAYER/CHECK PLAYER")]
         public PlayerController 
@@ -60,6 +75,16 @@ namespace MoleSurvivor
         player3,
         player4;
 
+        [BoxGroup("BOX PLAYER")]
+        [TitleGroup("BOX PLAYER/PLAYER HUD")]
+        public PlayerHud 
+        player1Health,
+        player2Health,
+        player3Health,
+        player4Health;
+
+        //---------------------------------------------------------------------------------------------------------------------------------------
+
         [TitleGroup("BOX PLAYER/PLAYER START POSITION", "Set all the players start position depending on how many players")]
         [FoldoutGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder")]
         [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Set start height all Player")]
@@ -67,7 +92,6 @@ namespace MoleSurvivor
         [SerializeField]
         public int
         setAllPlayerHeight;
-
 
         [BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Only have 1 Player")] 
         [HideLabel]
@@ -99,9 +123,97 @@ namespace MoleSurvivor
         only4Player3,
         only4Player4;
 
+        //---------------------------------------------------------------------------------------------------------------------------------------
+
+        //[TitleGroup("BOX PLAYER/PLAYER START POSITION", "Set all the players start position depending on how many players")]
+        //[FoldoutGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder")]
+        //[BoxGroup("BOX PLAYER/PLAYER START POSITION/Collapse Folder/Set start height all Player")]
+
+        //[BoxGroup("BOX LEVEL SANDWITCH", false)]
+        //[Title("BOX LEVEL SANDWITCH/LEVEL SANDWITCH")]
+
+        [FoldoutGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder")]
+        [TitleGroup("BOX PLAYER/PLAYER RESPAWN POSITION", "Set all the players respawn position")]
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/Player Respawn Timer")]
+        [HideLabel]
+        [SerializeField]
+        public float
+        playerRespawnTimer;
+
+        private float
+        p1SpawnTimer,
+        p2SpawnTimer,
+        p3SpawnTimer,
+        p4SpawnTimer;
+
+        private bool
+        p1Death,
+        p2Death,
+        p3Death,
+        p4Death;
+
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/Player Height Respawn Location")]
+        [HideLabel]
+        [SerializeField]
+        public float
+        playerRespawnHeightLocation;
+
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/1 Player Respawn Location")]
+        [HideLabel]
+        [SerializeField]
+        public float
+        only1player1RespawnLocation;
+
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/1 Player Respawn Location")]
+        [LabelText("Debug")]
+        [SerializeField]
+        public bool
+        only1playersRespawnLocationDebug;
+
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/2 Player Respawn Location")]
+        [HideLabel]
+        [SerializeField]
+        public float
+        only2player1RespawnLocation,
+        only2player2RespawnLocation;
+
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/2 Player Respawn Location")]
+        [LabelText("Debug")]
+        [SerializeField]
+        public bool
+        only2playersRespawnLocationDebug;
+
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/3 Player Respawn Location")]
+        [HideLabel]
+        [SerializeField]
+        public float
+        only3player1RespawnLocation,
+        only3player2RespawnLocation,
+        only3player3RespawnLocation;
+
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/3 Player Respawn Location")]
+        [LabelText("Debug")]
+        [SerializeField]
+        public bool
+        only3playersRespawnLocationDebug;
+
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/4 Player Respawn Location")]
+        [HideLabel]
+        [SerializeField]
+        public float
+        only4player1RespawnLocation,
+        only4player2RespawnLocation,
+        only4player3RespawnLocation,
+        only4player4RespawnLocation;
+
+        [BoxGroup("BOX PLAYER/PLAYER RESPAWN POSITION/Collapse Folder/4 Player Respawn Location")]
+        [LabelText("Debug")]
+        [SerializeField]
+        public bool
+        only4playersRespawnLocationDebug;
 
         [TitleGroup("BOX PLAYER/START SPEED & ROTATION", "Set all the players the Speed and Rotation on the start")]
-        [BoxGroup("BOX PLAYER")]
+        [BoxGroup("BOX PLAYER", false)]
         public float 
         playerMoveSpeed,
         playerRotateSpeed,
@@ -125,6 +237,7 @@ namespace MoleSurvivor
         [TitleGroup("BOX PLAYER/SET MODE", "Singleplayer / Multiplayer")]
         [BoxGroup("BOX PLAYER")]
         public bool soloMode;
+        #endregion
 
         private void Start() 
         {
@@ -159,8 +272,13 @@ namespace MoleSurvivor
             if (player3 != null && p3Active) { SetStartPlayer(player3, P3Pos, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode); }
             if (player4 != null && p4Active) { SetStartPlayer(player4, P4Pos, playerMoveSpeed, playerRotateSpeed, playerRotateDelay, soloMode); }
 
-            // Start the coroutine
-            StartCoroutine(MoveCameraCoroutine());
+            p1SpawnTimer = playerRespawnTimer;
+            p2SpawnTimer = playerRespawnTimer;
+            p3SpawnTimer = playerRespawnTimer;
+            p4SpawnTimer = playerRespawnTimer;
+
+            // Start the coroutine to move the camera
+            //StartCoroutine(MoveCameraCoroutine());
         }
 
         public void SetPlayerPositionActivation(int numberOfPlayers)
@@ -236,7 +354,10 @@ namespace MoleSurvivor
             player4.gameObject.SetActive(p4Active);
         }
 
-        private void Update() { SetUpdate(setActiveUpdate); }
+        private void Update() 
+        {
+            SetUpdate(setActiveUpdate); 
+        }
 
         void SetUpdate(bool active)
         {
@@ -320,10 +441,6 @@ namespace MoleSurvivor
             Destroy(this.gameObject);
         }
 
-        public Vector2 _screenSpace;
-        public float vertical;
-        public float horizontal;
-
         public void OutsideBound(Transform objectBound, float objectBoundPositionOffset)
         {
             // Assuming inGameCamera, horizontal, vertical, and _screenSpace are already defined
@@ -356,6 +473,12 @@ namespace MoleSurvivor
                 // The point the outer boundaries
                 objectBound.gameObject.SetActive(true);
             }
+        }
+
+        void SnapToGrid(Transform player)
+        {
+            // Convert world position to cell position and back to snap to the grid
+            player.position = grid.CellToWorld(grid.WorldToCell(player.position));
         }
 
         private void OnDrawGizmos()
@@ -393,6 +516,39 @@ namespace MoleSurvivor
             Gizmos.DrawLine(outerTopLeft, outerTopRight);
             Gizmos.DrawLine(outerBottomLeft, outerTopLeft);
             Gizmos.DrawLine(outerBottomRight, outerTopRight);
+
+            //---------------------------------------------------------------------------------------
+            
+            Gizmos.color = Color.red;
+
+            Vector3 cPosition = new Vector3(0, inGameCamera.position.y + playerRespawnHeightLocation, inGameCamera.position.z);
+            Gizmos.DrawLine(cPosition + new Vector3(-horizontal, 0), cPosition + new Vector3(horizontal, 0));
+
+            if (only1playersRespawnLocationDebug)
+            {
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only1player1RespawnLocation, 0, 0), 0.5f);
+            }
+
+            if (only2playersRespawnLocationDebug)
+            {
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only2player1RespawnLocation, 0, 0), 0.5f);
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only2player2RespawnLocation, 0, 0), 0.5f);
+            }
+
+            if (only3playersRespawnLocationDebug)
+            {
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only3player1RespawnLocation, 0, 0), 0.5f);
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only3player2RespawnLocation, 0, 0), 0.5f);
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only3player3RespawnLocation, 0, 0), 0.5f);
+            }
+
+            if (only4playersRespawnLocationDebug)
+            {
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only4player1RespawnLocation, 0, 0), 0.5f);
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only4player2RespawnLocation, 0, 0), 0.5f);
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only4player3RespawnLocation, 0, 0), 0.5f);
+                Gizmos.DrawWireSphere(cPosition + new Vector3(only4player4RespawnLocation, 0, 0), 0.5f);
+            }
         }
 
     }
