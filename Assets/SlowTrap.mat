@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WebTrap
+  m_Name: SlowTrap
   m_Shader: {fileID: 4800000, guid: 5d563ed51a8e4ca468dd3779973933d0, type: 3}
   m_ValidKeywords:
   - _PIXELSWITCH_ON
@@ -62,7 +62,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture:
-        m_Texture: {fileID: 2800000, guid: 7b53015e70ce8bb4580b2cf7837a5cbc, type: 3}
+        m_Texture: {fileID: 2800000, guid: 77e2eefa6d2e5154c92bbfae5d1ff4b0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture0:

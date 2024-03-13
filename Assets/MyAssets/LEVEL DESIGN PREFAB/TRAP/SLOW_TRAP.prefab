@@ -43,9 +43,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5112407069314991601}
   - component: {fileID: 5112407069314991603}
-  - component: {fileID: 6611757372830685540}
+  - component: {fileID: -2163108084918796990}
   m_Layer: 0
-  m_Name: WEB_TRAP
+  m_Name: SLOW_TRAP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,7 +80,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6611757372830685540
+--- !u!114 &-2163108084918796990
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,12 +89,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5112407069314991602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dded5cd90069074a98fa70eeb10feda, type: 3}
+  m_Script: {fileID: 11500000, guid: c17be524464f19544929ea0a1c863de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  min: 2
-  max: 5
-  currentInt: 4
+  slowFactor: 0.5
+  duration: 2
 --- !u!1 &5112407070102176215
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +243,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b942d9508c8ca884eba081832082f123, type: 2}
+  - {fileID: 2100000, guid: c97c05f2311a58d44baeaa42126e5851, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
